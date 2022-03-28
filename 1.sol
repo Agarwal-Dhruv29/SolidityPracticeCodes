@@ -6,7 +6,8 @@ contract test4 {
     mapping(address => uint) public balanceReceived;
     address payable owner = payable(msg.sender);
     address payable myAddress;
-    address payable feeAddress;  
+    address payable feeAddress;
+    //address payable feeAddress2; 
     
     constructor() {
         owner = payable(msg.sender);
