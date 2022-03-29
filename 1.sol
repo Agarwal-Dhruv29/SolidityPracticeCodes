@@ -4,29 +4,23 @@ pragma solidity ^0.8.13;
 contract test4 {
 
     mapping(address => uint) public balanceReceived;
+    mapping(address => uint) public timeRecorded;
+    mapping(address => string) public senderName;
     address payable owner = payable(msg.sender);
-    address payable myAddress;
-    address payable feeAddress;
-    //address payable feeAddress2; 
+    address payable feeAddress;  
     
     constructor() {
         owner = payable(msg.sender);
-    }
-
-    function setMyAddress(address payable _myAddress) public payable {
-        require(msg.sender == owner, "you are not the owner");
-        myAddress = _myAddress;
     }
     function setFeeAddress(address payable _feeAddress) public payable {
         require(msg.sender == owner, "you are not the owner");
         feeAddress = _feeAddress;
     }
-    function receiveMoney() public payable {
-        require(msg.sender != myAddress, "you cannot call function");
-        myAddress.transfer(msg.value / 2);
-        feeAddress.transfer((msg.value / 2) * 10 / 100);
-        balanceReceived[msg.sender] = msg.value;
-        
+    function sendMoney(string memory _name) public payable {
+        senderName[msg.sender] = _name;
+        feeAddress.transfer(msg.value * 10 / 100);
+        balanceReceived[msg.sender] += msg.value;
+        timeRecorded[msg.sender] = block.timestamp;
     }
     function getBalance () public view returns (uint) {
         return address(this).balance;
